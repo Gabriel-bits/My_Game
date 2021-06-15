@@ -6,6 +6,7 @@ class Musicas():
 
     def stop_music():
         pygame.mixer.music.stop()
+        
     
     def trilha_1():
         pygame.mixer.init()

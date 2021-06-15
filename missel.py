@@ -28,6 +28,7 @@ class Missil(pygame.sprite.Sprite):
 
         self.index_lista = 0
         self.image = self.animaçao_missil_defalt[int(self.index_lista)]
+        print(self.image)
         self.rect = pygame.Rect(10, 10, -20, -14)
         self.speed = 6
         
