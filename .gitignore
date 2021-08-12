@@ -1,0 +1,5 @@
+
+.vscode/settings.json
+*.pyc
+*.pyc
+__pycache__/funs_pers.cpython-37.pyc

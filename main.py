@@ -1,6 +1,11 @@
 # ===================================================== #
 # imports:                                              #
 # ===================================================== #
+import os, sys
+dirpath = os.getcwd()
+sys.path.append(dirpath)
+if getattr(sys, "frozen", False):
+    os.chdir(sys._MEIPASS)
 
 import pygame, sys
 import random
@@ -20,7 +25,7 @@ from pygame import mixer_music
 
 
 # ===================================================== #
-# Lenbrets:                                             #
+# Lembretes:                                            #
 # ===================================================== #
 '''
  width, height
@@ -40,7 +45,7 @@ pygame.mixer.pre_init(44100, -16, 4, 10)
 
 
 # ===================================================== #
-# Draw, text and backgraund:                            #
+# Draw, text and background:                            #
 # ===================================================== #
 
 def Fps():
@@ -74,97 +79,102 @@ pygame.mixer.set_reserved(1)
 #Novo_game()
 perfil = load_game()
 
-if __name__ == "__main__":
-    imag("itens/Life 1.png", 35, 35, 20, 35, object_da_tela)
-    imag("itens/ico_missel.png", 35, 38, 20, 80, object_da_tela)
-    while gameLoop:
+try:
+        
+    if __name__ == "__main__":
 
-        dt = time.time() - last_time
-        dt *= 60
-        last_time = time.time()
-        object_backg.draw(tela)
-        objectGroup.draw(tela)
-        object_da_tela.draw(tela)
-        pos += 3 * dt
-        tempo += 1
-     
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                gameLoop = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    if not gameOver:
-                        if perfil["muniçao"] > 0:
-                            for i in range(1):
+        imag("itens/Life 1.png", 35, 35, 20, 35, object_da_tela)
+        imag("itens/ico_missel.png", 35, 38, 20, 80, object_da_tela)
+
+        while gameLoop:
+
+            # dt = time.time() - last_time
+            # dt *= 60
+            last_time = time.time()
+            object_backg.draw(tela)
+            objectGroup.draw(tela)
+            object_da_tela.draw(tela)
+            # pos += 3 * dt
+            tempo += 1
+        
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    gameLoop = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        if not gameOver:
+                            if perfil["muniçao"] > 0:
+                                for i in range(1):
+                                    Efeito_sonoro.missel()
+                                    newtiro = Missil(objectGroup, tiroGrop)
+                                    newtiro.rect.center = nave.rect.center
+                                    perfil["muniçao"] -= 1
+                    if event.button == 3:
+                        print("3")          
+
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        gameLoop = False
+
+                    elif event.key == pygame.K_SPACE:
+                        if not gameOver:
+                            if perfil["muniçao"] > 0:
                                 Efeito_sonoro.missel()
                                 newtiro = Missil(objectGroup, tiroGrop)
                                 newtiro.rect.center = nave.rect.center
-                                perfil["muniçao"] -= 1
-                if event.button == 3:
-                    print("3")          
+                                perfil["muniçao"] -= 1 
+            
+            if gameOver != True:
 
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    gameLoop = False
-
-                elif event.key == pygame.K_SPACE:
-                    if not gameOver:
-                        if perfil["muniçao"] > 0:
-                            Efeito_sonoro.missel()
-                            newtiro = Missil(objectGroup, tiroGrop)
-                            newtiro.rect.center = nave.rect.center
-                            perfil["muniçao"] -= 1 
-        
-        if gameOver != True:
-
-            if tempo == 1000:
-                for x in range(1):
+                if tempo == 1000:
                     print("WINS")
+                    
+                objectGroup.update()
+                
+                colisão = pygame.sprite.spritecollide(nave, asteroidGroup, True, pygame.sprite.collide_mask)
+                i_muniçao = pygame.sprite.spritecollide(nave, itens_m, True, pygame.sprite.collide_mask)
+                i_life = pygame.sprite.spritecollide(nave, itens_l, True, pygame.sprite.collide_mask)
+                hits = pygame.sprite.groupcollide(tiroGrop , asteroidGroup ,True , True, pygame.sprite.collide_mask)
 
-            objectGroup.update()
-            
-            colisão = pygame.sprite.spritecollide(nave, asteroidGroup, True, pygame.sprite.collide_mask)
-            i_muniçao = pygame.sprite.spritecollide(nave, itens_m, True, pygame.sprite.collide_mask)
-            i_life = pygame.sprite.spritecollide(nave, itens_l, True, pygame.sprite.collide_mask)
-            hits = pygame.sprite.groupcollide(tiroGrop , asteroidGroup ,True , True, pygame.sprite.collide_mask)
-            
-            if i_muniçao:
-                perfil["muniçao"] += 1
-                Efeito_sonoro.muni()
+                if i_muniçao:
+                    perfil["muniçao"] += 1
+                    Efeito_sonoro.muni()
 
-            elif i_life:
-                perfil["life"] += 1         
-                Efeito_sonoro.hp()
+                elif i_life:
+                    perfil["life"] += 1         
+                    Efeito_sonoro.hp()
 
-            elif colisão:
-                perfil["life"] -= 1
-                Efeito_sonoro.dano_1()
+                elif colisão:
+                    perfil["life"] -= 1
+                    Efeito_sonoro.dano_1()
 
-            elif perfil["life"] == 0:
-                Efeito_sonoro.morte()
-                Musicas.stop_music()
-                gameOver = True
+                if perfil["life"] < 1:
+                    Efeito_sonoro.morte()
+                    Musicas.stop_music()
+                    gameOver = True
 
-            elif hits:
-                misil.esplosao()
-                Efeito_sonoro.esplos_1()
+                elif hits:
+                    misil.esplosao()
+                    Efeito_sonoro.esplos_1()
 
-            numero += 1
-            if numero > 15:
-                numero = 0
-                if random.random() < 0.5:
-                    newasteroid = Asteroid(objectGroup, asteroidGroup)
+                numero += 1
+                if numero > 15:
+                    numero = 0
+                    if random.random() < 0.5:
+                        newasteroid = Asteroid(objectGroup, asteroidGroup)
 
-                elif random.random() < 0.1:
-                    newite_m = I_missil(objectGroup, itens_m)
+                    elif random.random() < 0.1:
+                        newite_m = I_missil(objectGroup, itens_m)
 
-                elif random.random() < 0.1:
-                    newite_l = I_life(objectGroup, itens_l)
+                    elif random.random() < 0.1:
+                        newite_l = I_life(objectGroup, itens_l)
 
+            desenhar_text_m(f'= {perfil["life"]}', (255, 255, 255), tela, 39, 20, 20)
+            desenhar_text_m(f'= {perfil["muniçao"]}', (255, 255, 255), tela, 39, 75, 20)
+            Fps()
 
-        desenhar_text_m(f'= {perfil["life"]}', (255, 255, 255), tela, 39, 20, 20)
-        desenhar_text_m(f'= {perfil["muniçao"]}', (255, 255, 255), tela, 39, 75, 20)
-        Fps()
+            clock.tick(framerate)
+            pygame.display.update()
 
-        clock.tick(framerate)
-        pygame.display.update()
+except Exception as __erro:
+    print(__erro)

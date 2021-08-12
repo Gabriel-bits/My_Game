@@ -38,12 +38,12 @@ def controle():
                         muniçao -= 1
 
 #--------------------------------------------------------------------#
-# Imagems, backgroud, botonhes etc... 
+# Imagens, background, botoes etc... 
 #--------------------------------------------------------------------#
 
 def backg(file, Group, tx, ty):
     """
-    Para add um backgroud simples dando o                                   
+    Para add um background simples dando o                                   
     diretorio, grupo de sprits e os tamanho X e Y
     """
     bg = pygame.sprite.Sprite(Group)
@@ -94,7 +94,7 @@ def anima_H(file, quadros, cort_x, cort_y, tx, ty, px, py):
 
 def desenhar_text(text, font_p, color, surface, x, y, tamanho):
     """
-    font independete de variaveis externas como :                   
+    font independente de variaveis externas como :                   
 
     font = pygame.font.SysFont("...", tamanho)
     """
@@ -107,10 +107,11 @@ def desenhar_text(text, font_p, color, surface, x, y, tamanho):
 
 def desenhar_text_d(text, font_d, color, surface, x, y, tamanho):
     """
-    font dependete de variaveis externas, como                  
+    font dependente de variaveis externas, como                  
     uma variavel definida no fora desta fonção.             
     exp:                              
 
+    variavel:
     font = pygame.font.SysFont("...", tamanho)
     """
     textobj = font.render(text, 1, color)
