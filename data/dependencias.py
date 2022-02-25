@@ -1,11 +1,12 @@
 import pygame, time
 from funs_pers import *
-from asteroid import Asteroid
-from missel import Missil
-from nave import Nave
-from data.itens.itens_codg.i_m import I_missil
-from data.itens.itens_codg.i_l import I_life
-
+from data.cogs.enemies.asteroid import Asteroid
+from data.cogs.powers.missil import Missil
+from data.cogs.players.nave import Nave
+from data.cogs.itens.i_m import I_missil
+from data.cogs.itens.i_l import I_life
+from data.cogs.sounds.sounds import Efeito_sonoro
+from data.cogs.songs.songs import Musicas
 
 # ===================================================== #
 # Tela:                                                 #
@@ -42,10 +43,10 @@ mj = pygame.time.get_ticks()
 # Variaveis para diretoris:                             #
 # ===================================================== #
 
-TELA = "tela/"
-MUSIC = "música/"
-SOUDS = "souds/"
-PERSO = "personagens/"
+TELA = "/data/resource/win/"
+MUSIC = "/data/resource/songs/"
+SOUDS = "/data/resource/sounds/"
+PERSO = "/data/resource/players/"
 
 # ===================================================== #
 # Grupos de object/sprits:                                #
@@ -53,7 +54,7 @@ PERSO = "personagens/"
 
 
 
-
+naveGroup = pygame.sprite.Group()
 objectGroup = pygame.sprite.Group()
 object_backg = pygame.sprite.Group()
 object_da_tela = pygame.sprite.Group()
@@ -66,15 +67,17 @@ itens_l = pygame.sprite.Group()
 Bots_opcoes = pygame.sprite.Group()
 Bots_menu = pygame.sprite.Group()
 
-
 # ===================================================== #
 # Personagem and object:                                #
 # ===================================================== #
 
-misil = Missil(tiroGrop)
-nave = Nave(objectGroup)
-asteroid = Asteroid(asteroidGroup)
-iten_mu = I_missil(itens_m)
+
+# Na = Nave()
+# nave = naveGroup.add(Na)
+# asteroid = Asteroid(asteroidGroup)
+# iten_mu = I_missil(itens_m)
+
+
 
 #======================{FIM}======================#
 
