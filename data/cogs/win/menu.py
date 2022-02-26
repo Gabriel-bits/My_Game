@@ -1,10 +1,11 @@
 # importações ----------------------------------------------- #
 import pygame, sys
 from pygame.locals import *
+
 from data.dependencias import *
-from funs_pers import *
+from funs_pers import backg,imag,b_imag,desenhar_text_m,Loading
 from data.cogs.win.telas import * 
-import time
+
 
 # janela, inicializações ---------------------------------------- #
 
@@ -63,7 +64,7 @@ def options():
         objectGroup.draw(tela)
         Bots_menu.draw(tela)
         desenhar_text_m('opcoes', (255, 255, 255), tela, 30, 20, 30)
-        b_imag("data/resource/Botons/layout_.png", 170, 70, -10, 10, Bots_menu)
+        b_imag("data/resource/bottons/layout_.png", 170, 70, -10, 10, Bots_menu)
 
         for event in pygame.event.get():
             
@@ -87,14 +88,14 @@ def main_menu():
 
         mx, my = pygame.mouse.get_pos()          
         b_imag("data/resource/players/Nave.png",110, 70, 450, 150, objectaleatori)
-        b_imag("data/resource/Botons/layout_.png", 170, 70, -10, 10, Bots_menu)
+        b_imag("data/resource/bottons/layout_.png", 170, 70, -10, 10, Bots_menu)
 
         desenhar_text_m('Menu', (255, 255, 255), tela, 30, 20, 30)
         desenhar_text_m('Play..', (255, 255, 255), tela, 87, 127, 30)
         desenhar_text_m('Opcoes', (255, 255, 255), tela, 87, 227, 30)
 
-        button_1 = b_imag("data/resource/Botons/Layout.png", 180, 65, 55, 103, Bots_menu)
-        button_2 = b_imag("data/resource/Botons/Layout.png", 180, 65, 55, 203, Bots_menu)
+        button_1 = b_imag("data/resource/bottons/Layout.png", 180, 65, 55, 103, Bots_menu)
+        button_2 = b_imag("data/resource/bottons/Layout.png", 180, 65, 55, 203, Bots_menu)
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -160,5 +161,4 @@ def Pause():
 
         pygame.display.update()
         clock.tick(60)
-
 

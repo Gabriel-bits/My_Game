@@ -122,11 +122,15 @@ class Game_time_line():
                         print("3")          
 
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
+                    if event.key == pygame.K_r:
                         self.reset = True
                         self.Nave.destruir()
+                        self.asteroidGroup.empty()
                         self.objectGroup.empty()
                         self.gameLoop = False
+                    
+                    elif event.key == pygame.K_ESCAPE:
+                        main_menu()
     
                     elif event.key == pygame.K_SPACE:
                         if not self.gameOver:
@@ -159,7 +163,7 @@ class Game_time_line():
             
             Fps()
 
-            clock.tick(100)
+            clock.tick(framerate)
             pygame.display.flip()
 
         return self.reset
